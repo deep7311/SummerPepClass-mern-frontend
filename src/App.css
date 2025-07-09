@@ -1,0 +1,26 @@
+.App-Container {
+  background-color: silver;
+  position: relative;
+  min-height: calc(100vh - 10px);
+  background-color: silver;
+}
+
+
+.header {
+  background-color: rgb(0, 0, 0);
+  color: white;
+  text-align: center;
+  padding: 10px;
+  margin: 0;
+}
+
+.footer {
+  background-color: rgb(0, 0, 0);
+  color: white;
+  text-align: center;
+  padding: 10px;
+  margin: 0;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
