@@ -42,3 +42,18 @@ input:focus {
   border-color: #5b9bd5;
   box-shadow: 0 0 3px #5b9bd5;
 }
+
+
+button {
+  padding: 10px 20px;
+  background-color: #5b9bd5;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: #4a8ac2;
+}
