@@ -6,11 +6,13 @@ const Register = () => {
 
   const [user, setUser] = useState({})
 
+  const API_URL = import.meta.env.VITE_API_URL   // aise .env se data extract karte hai frontend me
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('https://ecomerce-app-flax.vercel.app/api/users/register', user);
+      const url = `${API_URL}/api/users/register`;
+      const response = await axios.post(url, user);
       console.log(response.data);
       if(response.data.success){
         toast.success(response.data.message, {
