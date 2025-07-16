@@ -19,6 +19,10 @@ const Cart = () => {
   const navigate = useNavigate();
 
   const handlePlaceOrder = async () => {
+    if (cart.length === 0) {
+      toast.error("Your cart is empty.");
+      return;
+    }
     try {
       const url = import.meta.env.VITE_API_URL;
 
@@ -131,7 +135,8 @@ const Cart = () => {
       {user && user.token ? (
         <button
           onClick={handlePlaceOrder}
-          className="bg-green-600 text-white px-4 py-2 rounded mt-6 mx-auto block"
+          className="bg-green-600 text-white px-4 py-2 rounded mt-6 mx-auto block disabled:opacity-50 disabled:cursor-not-allowed"
+          disabled={cart.length === 0}
         >
           Checkout
         </button>
