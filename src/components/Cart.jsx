@@ -22,20 +22,23 @@ const Cart = () => {
     try {
       const url = import.meta.env.VITE_API_URL;
 
-      const response = await axios.post(`${url}/api/orders/place-order`, {
-        orderValue: totalPrice,
-        userId: user._id,
-        items: cart.map((item) => ({
-          productId: item._id,
-          quantity: item.quantity,
-        })),
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
+      const response = await axios.post(
+        `${url}/api/orders/place-order`,
+        {
+          orderValue: totalPrice,
+          userId: user._id,
+          items: cart.map((item) => ({
+            productId: item._id,
+            quantity: item.quantity,
+          })),
         },
-      });
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
 
       if (response.data.success) {
         toast.success(response.data.message);
@@ -80,9 +83,7 @@ const Cart = () => {
                     <h2 className="font-semibold text-gray-800">
                       {product.productName}
                     </h2>
-                    <p className="text-gray-500 text-sm">
-                      ₹{product.price}
-                    </p>
+                    <p className="text-gray-500 text-sm">₹{product.price}</p>
                   </div>
                 </div>
 
@@ -120,15 +121,14 @@ const Cart = () => {
               Total Items: <span className="text-indigo-700">{totalItems}</span>
             </p>
             <p className="text-lg font-semibold text-gray-700">
-              Total Price:{" "}
-              <span className="text-green-600">₹{totalPrice}</span>
+              Total Price: <span className="text-green-600">₹{totalPrice}</span>
             </p>
           </div>
         </>
       )}
 
       {/* Checkout Button */}
-      {user ? (
+      {user && user.token ? (
         <button
           onClick={handlePlaceOrder}
           className="bg-green-600 text-white px-4 py-2 rounded mt-6 mx-auto block"
