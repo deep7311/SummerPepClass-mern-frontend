@@ -116,33 +116,37 @@ const Product = () => {
       )}
 
       {/* Pagination */}
-      <div className="flex justify-center gap-4 mt-10">
-        <button
-          onClick={() => setPage(page - 1)}
-          className={`px-4 py-2 rounded-md font-medium text-sm shadow transition ${
-            page === 1
-              ? "bg-gray-300 text-gray-600 cursor-not-allowed"
-              : "bg-indigo-500 hover:bg-indigo-600 text-white"
-          }`}
-        >
-          Prev
-        </button>
+      {products.length > 0 && (
+        <div className="flex justify-center gap-4 mt-10">
+          <button
+            onClick={() => setPage(page - 1)}
+            className={`px-4 py-2 rounded-md font-medium text-sm shadow transition ${
+              page === 1
+                ? "bg-gray-300 text-gray-600 cursor-not-allowed"
+                : "bg-indigo-500 hover:bg-indigo-600 text-white"
+            }`}
+            disabled={page === 1}
+          >
+            Prev
+          </button>
 
-        <span className="text-sm font-medium text-gray-700 mt-1">
-          Page {page} of {totalPages}
-        </span>
+          <span className="text-sm font-medium text-gray-700 mt-1">
+            Page {page} of {totalPages}
+          </span>
 
-        <button
-          onClick={() => setPage(page + 1)}
-          className={`px-4 py-2 rounded-md font-medium text-sm shadow transition ${
-            page === totalPages
-              ? "bg-gray-300 text-gray-600 cursor-not-allowed"
-              : "bg-indigo-500 hover:bg-indigo-600 text-white"
-          }`}
-        >
-          Next
-        </button>
-      </div>
+          <button
+            onClick={() => setPage(page + 1)}
+            className={`px-4 py-2 rounded-md font-medium text-sm shadow transition ${
+              page === totalPages
+                ? "bg-gray-300 text-gray-600 cursor-not-allowed"
+                : "bg-indigo-500 hover:bg-indigo-600 text-white"
+            }`}
+            disabled={page === totalPages}
+          >
+            Next
+          </button>
+        </div>
+      )}
     </div>
   );
 };
