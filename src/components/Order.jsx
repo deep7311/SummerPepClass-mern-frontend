@@ -62,7 +62,7 @@ const Orders = () => {
                 </div>
               </div>
 
-              {/* Order Meta Info */}
+              {/* Order Info */}
               <div className="text-sm text-gray-700 mb-2">
                 Placed on:{" "}
                 <span className="text-gray-600">
