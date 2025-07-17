@@ -8,10 +8,15 @@ import {
   FaCalendarAlt,
   FaPhone
 } from "react-icons/fa";
+import UpdateUserProfile from "./UpdateUserProfile";
+import UpdateUserPassword from "./UpdateUserPassword";
 
 const Profile = () => {
   const [profile, setProfile] = useState(null);
   const { user } = useContext(AppContext);
+
+  const [openUpdateProfilePage, setOpenUpdateProfilePage] = useState(false)
+  const [openUpdatePasswordPage, setOpenUpdatePasswordPage] = useState(false)
 
   const fetchProfile = async () => {
     try {
@@ -100,14 +105,26 @@ const Profile = () => {
 
         {/* RIGHT SIDE - ACTION BUTTONS */}
         <div className="flex flex-col justify-center items-center gap-6">
-          <button className="w-full md:w-2/3 bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition">
+          <button onClick={() => setOpenUpdateProfilePage(true)} className="w-full md:w-2/3 bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition">
             Update Profile
           </button>
-          <button className="w-full md:w-2/3 bg-purple-600 text-white py-3 rounded-lg font-semibold hover:bg-purple-700 transition">
+          <button onClick={() => setOpenUpdatePasswordPage(true)} className="w-full md:w-2/3 bg-purple-600 text-white py-3 rounded-lg font-semibold hover:bg-purple-700 transition">
             Update Password
           </button>
         </div>
       </div>
+
+      {
+        openUpdatePasswordPage && (
+          <UpdateUserPassword setOpenUpdatePasswordPage={setOpenUpdatePasswordPage}/>
+        )
+      }
+
+      {
+        openUpdateProfilePage && (
+          <UpdateUserProfile setOpenUpdateProfilePage={setOpenUpdateProfilePage}/>
+        )
+      }
     </div>
   );
 };
