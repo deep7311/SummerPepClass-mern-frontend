@@ -47,10 +47,10 @@ const Cart = () => {
       if (response.data.success) {
         toast.success(response.data.message);
 
-        // Clear cart
+        // jaise hi checkout hoga cart ko clear kar denge
         setCart([]);
 
-        // Navigate to Order Page
+        // Navigate karenge Order Page par yaha se
         navigate("/order");
       } else {
         toast.error("Failed to place order");
@@ -119,13 +119,13 @@ const Cart = () => {
             ))}
           </ul>
 
-          {/* Total Summary */}
+          {/* Total cart ki summary */}
           <div className="max-w-4xl mx-auto mt-8 bg-white p-4 rounded-xl shadow border text-right">
             <p className="text-lg font-semibold text-gray-700">
               Total Items: <span className="text-indigo-700">{totalItems}</span>
             </p>
             <p className="text-lg font-semibold text-gray-700">
-              Total Price: <span className="text-green-600">₹{totalPrice}</span>
+              Total Price: <span className="text-green-600">&#8377;{totalPrice}</span>
             </p>
           </div>
         </>

@@ -8,6 +8,7 @@ const Register = () => {
     name: '',
     email: '',
     password: '',
+    mobile: ''
   });
 
   const navigate = useNavigate()
@@ -71,6 +72,16 @@ const Register = () => {
           placeholder="Email"
           className="w-full px-4 py-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400"
         />
+        <input
+          type="text"
+          name="mobile"
+          value={user.mobile}
+          onChange={handleChange}
+          maxLength={10}
+          placeholder="+91 xxxxxxxxxx"
+          className="w-full px-4 py-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400"
+        />
+
 
         {/* Password Input */}
         <input

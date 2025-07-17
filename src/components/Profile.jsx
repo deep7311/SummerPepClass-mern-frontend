@@ -1,7 +1,13 @@
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { AppContext } from "../context/AppContext";
-import { FaUserCircle, FaEnvelope, FaUserShield, FaCalendarAlt } from "react-icons/fa";
+import {
+  FaUserCircle,
+  FaEnvelope,
+  FaUserShield,
+  FaCalendarAlt,
+  FaPhone
+} from "react-icons/fa";
 
 const Profile = () => {
   const [profile, setProfile] = useState(null);
@@ -30,7 +36,9 @@ const Profile = () => {
   if (!profile) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-200 via-purple-200 to-pink-200">
-        <p className="text-gray-600 text-lg animate-pulse">Loading profile...</p>
+        <p className="text-gray-600 text-lg animate-pulse">
+          Loading profile...
+        </p>
       </div>
     );
   }
@@ -43,24 +51,48 @@ const Profile = () => {
           <div className="flex items-center gap-4 mb-6">
             <FaUserCircle className="text-indigo-600 text-6xl" />
             <div>
-              <h2 className="text-3xl font-bold text-indigo-700">{profile.name}</h2>
-              <p className="text-sm text-gray-600">Welcome to your profile dashboard</p>
+              <h2 className="text-3xl font-bold text-indigo-700">
+                {profile.name}
+              </h2>
+              <p className="text-sm text-gray-600">
+                Welcome to your profile dashboard
+              </p>
             </div>
           </div>
 
           <div className="space-y-4 text-gray-800">
             <div className="flex items-center gap-3">
               <FaEnvelope className="text-indigo-500" />
-              <p className="font-medium">Email: <span className="font-normal">{profile.email}</span></p>
+              <p className="font-medium">
+                Email: <span className="font-normal">{profile.email}</span>
+              </p>
             </div>
+
             <div className="flex items-center gap-3">
               <FaUserShield className="text-indigo-500" />
-              <p className="font-medium">Role: <span className="font-normal">{profile.role}</span></p>
+              <p className="font-medium">
+                Role: <span className="font-normal">{profile.role}</span>
+              </p>
             </div>
+
             <div className="flex items-center gap-3">
               <FaCalendarAlt className="text-indigo-500" />
-              <p className="font-medium">Joined:{" "}
-                <span className="font-normal">{new Date(profile.createdAt).toLocaleString()}</span>
+              <p className="font-medium">
+                Joined:{" "}
+                <span className="font-normal">
+                  {new Date(profile.createdAt).toLocaleString()}
+                </span>
+              </p>
+            </div>
+
+            {/* yaha new field hai mobile ke display ke liye */}
+            <div className="flex items-center gap-3">
+              <FaPhone className="text-indigo-500" />
+              <p className="font-medium">
+                Mobile:{" "}
+                <span className="font-normal">
+                  {profile.mobile || "Not Provided"}
+                </span>
               </p>
             </div>
           </div>
