@@ -1,14 +1,14 @@
-import React, { useState, useContext } from 'react';
-import axios from 'axios';
-import { AppContext } from '../context/AppContext';
-import { toast } from 'react-toastify';
+import React, { useState, useContext } from "react";
+import axios from "axios";
+import { AppContext } from "../context/AppContext";
+import { toast } from "react-toastify";
 
 const UpdateUserProfile = ({ setOpenUpdateProfilePage }) => {
   const { user, setUser } = useContext(AppContext);
   const [updateDetails, setUpdateDetails] = useState({
-    name: user?.name || '',
-    email: user?.email || '',
-    mobile: user?.mobile || ''
+    name: user?.name || "",
+    email: user?.email || "",
+    mobile: user?.mobile || "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -17,7 +17,7 @@ const UpdateUserProfile = ({ setOpenUpdateProfilePage }) => {
     const { name, value } = e.target;
     setUpdateDetails((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -26,9 +26,19 @@ const UpdateUserProfile = ({ setOpenUpdateProfilePage }) => {
     setLoading(true);
     try {
       const url = import.meta.env.VITE_API_URL;
+
+      // Mobile field blank ho to purana mobile number show hoga
+      const dataToSend = {
+        ...updateDetails,
+        mobile:
+          updateDetails.mobile.trim() === ""
+            ? user.mobile
+            : updateDetails.mobile,
+      };
+
       const res = await axios.put(
         `${url}/api/users/${user._id}/update-profile`,
-        updateDetails,
+        dataToSend,
         {
           headers: {
             Authorization: `Bearer ${user.token}`,
@@ -36,8 +46,7 @@ const UpdateUserProfile = ({ setOpenUpdateProfilePage }) => {
         }
       );
 
-      // context ko update karenge
-      setUser({ ...user, ...res.data });
+      setUser({ ...user, ...res.data }); // yaha context me user ko new data se update kar rahe hai
 
       toast.success("Profile updated successfully!");
       setOpenUpdateProfilePage(false);
@@ -55,10 +64,14 @@ const UpdateUserProfile = ({ setOpenUpdateProfilePage }) => {
         onSubmit={handleUpdateUserProfile}
         className="bg-white rounded-xl shadow-lg p-8 w-full max-w-md space-y-4"
       >
-        <h2 className="text-2xl font-bold text-indigo-600 text-center">Update Profile</h2>
+        <h2 className="text-2xl font-bold text-indigo-600 text-center">
+          Update Profile
+        </h2>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">Name</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Name
+          </label>
           <input
             type="text"
             name="name"
@@ -70,7 +83,9 @@ const UpdateUserProfile = ({ setOpenUpdateProfilePage }) => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">Email</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Email
+          </label>
           <input
             type="email"
             name="email"
@@ -82,7 +97,9 @@ const UpdateUserProfile = ({ setOpenUpdateProfilePage }) => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">Mobile</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Mobile
+          </label>
           <input
             type="text"
             name="mobile"
@@ -107,7 +124,7 @@ const UpdateUserProfile = ({ setOpenUpdateProfilePage }) => {
             disabled={loading}
             className="px-6 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition disabled:opacity-50"
           >
-            {loading ? 'Updating...' : 'Update'}
+            {loading ? "Updating..." : "Update"}
           </button>
         </div>
       </form>
