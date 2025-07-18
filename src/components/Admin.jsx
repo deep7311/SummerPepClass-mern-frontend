@@ -14,7 +14,7 @@ const Admin = () => {
 
       {/* Navigation Tabs */}
       <nav className="flex justify-center gap-6 mb-10">
-        {["users", "products", "orders"].map((item) => (
+        {["dashboard","users", "products", "orders"].map((item) => (
           <Link
             key={item}
             to={item}

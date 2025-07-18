@@ -1,22 +1,23 @@
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { AppContext } from "../context/AppContext";
+import { useNavigate } from "react-router-dom";
+import { FaCheckCircle } from "react-icons/fa";
 
 const Product = () => {
   const [products, setProducts] = useState([]);
   const [page, setPage] = useState(1);
-  const [limit] = useState(4);
+  const [limit] = useState(12);
   const [search, setSearch] = useState("");
   const [totalPages, setTotalPages] = useState(1);
 
   const { cart, addToCart, incrementQuantity, decrementQuantity } = useContext(AppContext);
+  const navigate = useNavigate();
 
   const fetchProducts = async () => {
     try {
       const url = import.meta.env.VITE_API_URL;
-      const res = await axios.get(
-        `${url}/api/products/all-products?page=${page}&limit=${limit}&search=${search}`
-      );
+      const res = await axios.get(`${url}/api/products/all-products?page=${page}&limit=${limit}&search=${search}`);
       setProducts(res.data.products);
       setTotalPages(res.data.totalPages);
     } catch (error) {
@@ -31,13 +32,9 @@ const Product = () => {
   const getCartItem = (productId) => cart.find((item) => item._id === productId);
 
   return (
-    <div className="min-h-screen px-4 py-10 bg-gradient-to-br from-sky-50 to-blue-100">
-      {/* Heading */}
-      <h1 className="text-3xl sm:text-4xl font-bold text-center text-indigo-700 mb-10">
-        Our Products
-      </h1>
+    <div className="min-h-screen px-4 py-10 bg-gradient-to-b from-blue-50 to-blue-100">
+      <h1 className="text-3xl sm:text-4xl font-bold text-center text-indigo-700 mb-10">Our Products</h1>
 
-      {/* Search Bar */}
       <div className="flex justify-center mb-10">
         <input
           type="text"
@@ -51,56 +48,68 @@ const Product = () => {
         />
       </div>
 
-      {/* Products Grid */}
       {products.length === 0 ? (
-        <div className="text-center mt-20 text-xl font-semibold text-gray-500">
-          No Products Found.
-        </div>
+        <div className="text-center mt-20 text-xl font-semibold text-gray-500">No Products Found.</div>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 max-w-6xl mx-auto">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 max-w-7xl mx-auto">
           {products.map((product) => {
             const cartItem = getCartItem(product._id);
+            const isInCart = !!cartItem;
+
             return (
               <div
                 key={product._id}
-                className="bg-white rounded-xl p-4 shadow hover:shadow-lg border border-gray-200 transition-all flex flex-col items-center"
+                onClick={() => navigate(`/product/${product._id}`)}
+                className={`relative cursor-pointer ${
+                  isInCart
+                    ? "bg-gradient-to-br from-green-100 via-green-50 to-green-200"
+                    : "bg-gradient-to-br from-purple-100 via-pink-50 to-indigo-100"
+                } rounded-2xl p-4 shadow hover:shadow-lg border hover:border-indigo-300 transition-all duration-300 flex flex-col items-center group`}
               >
+                {/* agar item cart me hai to uske liye green tick */}
+                {isInCart && (
+                  <FaCheckCircle className="absolute top-2 left-2 text-green-500 text-xl z-10" />
+                )}
+
+                {/* Product ki Image */}
                 <img
                   src={product.productImage?.[0]?.url}
                   alt={product.productName}
-                  className="w-24 h-24 object-contain mb-4"
+                  className="w-20 h-20 object-contain mb-3 transition-transform group-hover:scale-105 duration-300"
                 />
-                <h2 className="text-base font-semibold text-gray-800 text-center">
+
+                <h2 className="text-sm font-semibold text-gray-800 group-hover:text-indigo-700 transition-colors duration-300">
                   {product.productName}
                 </h2>
-                <p className="text-xs text-gray-500 text-center mt-1 line-clamp-2">
-                  {product.description}
-                </p>
-                <p className="text-indigo-600 font-bold text-sm mt-2">
-                  ₹{product.price}
-                </p>
 
-                {/* Cart Buttons */}
-                {cartItem ? (
-                  <div className="flex items-center gap-2 mt-4">
+                <p className="text-pink-600 font-bold text-sm mt-1">₹{product.price}</p>
+
+                {isInCart ? (
+                  <div
+                    className="flex items-center gap-2 mt-3"
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     <button
                       onClick={() => decrementQuantity(product._id)}
-                      className="px-3 py-1 bg-indigo-500 hover:bg-indigo-600 text-white text-sm rounded shadow"
+                      className="px-3 py-1.5 bg-indigo-500 hover:bg-indigo-600 text-white text-sm rounded shadow"
                     >
                       -
                     </button>
                     <span className="text-sm font-medium">{cartItem.quantity}</span>
                     <button
                       onClick={() => incrementQuantity(product._id)}
-                      className="px-3 py-1 bg-indigo-500 hover:bg-indigo-600 text-white text-sm rounded shadow"
+                      className="px-3 py-1.5 bg-indigo-500 hover:bg-indigo-600 text-white text-sm rounded shadow"
                     >
                       +
                     </button>
                   </div>
-                ) : (
+                  ) : (
                   <button
-                    onClick={() => addToCart(product)}
-                    className="mt-4 text-sm bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-1.5 rounded shadow transition"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      addToCart(product);
+                    }}
+                    className="mt-3 text-sm bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded shadow transition"
                   >
                     Add to Cart
                   </button>
@@ -111,7 +120,6 @@ const Product = () => {
         </div>
       )}
 
-      {/* Pagination Controls */}
       {products.length > 0 && (
         <div className="flex justify-center items-center gap-6 mt-12">
           <button

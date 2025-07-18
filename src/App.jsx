@@ -9,6 +9,8 @@ import Users from "./components/Users";
 import Products from "./components/Products";
 import Orders from "./components/Orders";
 import Profile from "./components/Profile";
+import Dashboard from "./components/Dashboard";
+import ViewProduct from "./components/ViewProduct";
 
 import {
   BrowserRouter,
@@ -32,6 +34,7 @@ function AppContent() {
       <main className="flex-1">
         <Routes>
           <Route path="/" element={<Product />} />
+          <Route path="/product/:id" element={<ViewProduct />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/cart" element={<Cart />} />
@@ -40,7 +43,8 @@ function AppContent() {
 
           {/* Admin nested routes */}
           <Route path="/admin" element={<Admin />}>
-            <Route index element={<Users />} />
+            <Route index element={<Dashboard />} />
+            <Route path="dashboard" element={<Dashboard />} />
             <Route path="users" element={<Users />} />
             <Route path="products" element={<Products />} />
             <Route path="orders" element={<Orders />} />
