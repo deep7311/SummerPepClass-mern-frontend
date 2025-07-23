@@ -1,4 +1,3 @@
-// Importing React context and hooks
 import { createContext, useState, useMemo } from 'react';
 
 // Creating context for global state sharing

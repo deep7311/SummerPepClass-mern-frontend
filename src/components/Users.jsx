@@ -15,7 +15,7 @@ const Users = () => {
   const { user } = useContext(AppContext);
 
   const [page, setPage] = useState(1);
-  const [limit] = useState(3);
+  const [limit, setLimit] = useState(3);
   const [search, setSearch] = useState("");
   const [totalPages, setTotalPages] = useState(1);
 
